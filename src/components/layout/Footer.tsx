@@ -21,6 +21,7 @@ export const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-dark-text-muted hover:text-dark-accent"
+                title="Visit our Facebook page"
               >
                 <Facebook className="w-5 h-5" />
               </a>
@@ -29,6 +30,7 @@ export const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-dark-text-muted hover:text-dark-accent"
+                title="Visit our Twitter page"
               >
                 <Twitter className="w-5 h-5" />
               </a>
@@ -37,6 +39,7 @@ export const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-dark-text-muted hover:text-dark-accent"
+                title="Visit our Instagram page"
               >
                 <Instagram className="w-5 h-5" />
               </a>

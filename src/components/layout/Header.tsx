@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { UtensilsCrossed, LogOut, User } from 'lucide-react';
-import { useAuth } from '../../hooks/useAuth';
+import { UtensilsCrossed } from 'lucide-react';
 import { Button } from '../common/Button';
 
 export const Header: React.FC = () => {
-  const { session, signOut } = useAuth();
+
 
   return (
     <header className="bg-dark-secondary border-b border-dark-border">
@@ -17,28 +16,7 @@ export const Header: React.FC = () => {
           </Link>
 
           <nav className="hidden md:flex items-center space-x-4">
-            {session ? (
-              <>
-                <Link
-                  to="/dashboard"
-                  className="text-dark-text-secondary hover:text-dark-text-primary px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Dashboard
-                </Link>
-                <Link
-                  to="/bookings"
-                  className="text-dark-text-secondary hover:text-dark-text-primary px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Bookings
-                </Link>
-                <Link
-                  to="/settings"
-                  className="text-dark-text-secondary hover:text-dark-text-primary px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Settings
-                </Link>
-              </>
-            ) : (
+            {(
               <>
                 <Link
                   to="/features"
@@ -63,24 +41,7 @@ export const Header: React.FC = () => {
           </nav>
 
           <div className="flex items-center space-x-4">
-            {session ? (
-              <>
-                <Link
-                  to="/profile"
-                  className="p-2 text-dark-text-secondary hover:text-dark-text-primary rounded-full hover:bg-dark-primary"
-                >
-                  <User className="w-5 h-5" />
-                </Link>
-                <Button
-                  variant="outline"
-                  onClick={() => signOut()}
-                  className="flex items-center space-x-2"
-                >
-                  <LogOut className="w-4 h-4" />
-                  <span>Sign Out</span>
-                </Button>
-              </>
-            ) : (
+            {(
               <>
                 <Link to="/signin">
                   <Button variant="outline">Sign In</Button>

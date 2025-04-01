@@ -36,7 +36,10 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
   const onSubmit = async (data: SignUpFormData) => {
     try {
       // Handle sign up logic here
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated API call
+      await new Promise((resolve) => {
+        console.log('Submitting user data:', data);
+        setTimeout(resolve, 1000);
+      }); // Simulated API call
       onSuccess();
       onClose();
     } catch (error) {
