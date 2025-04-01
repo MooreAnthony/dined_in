@@ -172,24 +172,30 @@ export const ContactsTable: React.FC<ContactsTableProps> = ({
                     <div>{contact.first_name} {contact.last_name}</div>
                     {contact.tags && contact.tags.length > 0 && (
                       <div className="flex flex-wrap gap-2">
-                        {contact.tags.map(tag => (
+                        {contact.tags.map(tag => {
+                          type IconType = keyof typeof Icons;
+                          const IconComponent = (tag.icon && tag.icon in Icons ? Icons[tag.icon as IconType] : Tag) as React.ElementType;
+
+                          return (
                           <span
-                            key={tag.id}
-                            className="px-2 py-0.5 text-sm rounded-full flex items-center gap-2"
-                            style={{ 
-                              backgroundColor: `${tag.color}20`,
-                              color: tag.color 
+                            key={tag.name}
+                            className="flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium"
+                            style={{
+                              backgroundColor: tag.color + '15',
+                              color: tag.color,
                             }}
                           >
-                            {React.createElement(
-                              Icons[tag.icon as keyof typeof Icons] || Tag,
-                              { className: "w-4 h-4" }
-                            )}
+                            <IconComponent className="w-4 h-4" />
                             {tag.name}
                           </span>
-                        ))}
+                        );
+                        })}
                       </div>
                     )}
+                    {/* {(() => {
+                      const IconComponent = Icons[tag.icon as keyof typeof Icons] || Tag;
+                      return React.createElement(IconComponent, { className: "w-4 h-4" });
+                    })()} */}
                   </div>
                 </td>
                 <td className="px-6 py-4 text-dark-text-secondary">

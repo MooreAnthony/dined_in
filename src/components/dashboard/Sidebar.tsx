@@ -67,7 +67,7 @@ const settingsMenuItems: SettingsMenuItem[] = [
 export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { signOut, session } = useAuth();
+  const { signOut } = useAuth();
   const { accounts, selectedAccount, setSelectedAccount, isLoading } = useAccounts();
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -243,13 +243,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
       <nav className="mt-8">
         <ul className="space-y-2 px-4" role="menu">
           {mainMenuItems.map((item) => (
-            <li key={item.path} role="none">
+            <li key={item.path} role="menuitem">
               {renderMenuItem(item)}
             </li>
           ))}
           
           {/* Settings Section */}
-          <li role="none" className="mt-4">
+          <li role="menuitem" className="mt-4">
             {settingsMenuItems.map(renderSettingsMenuItem)}
           </li>
         </ul>
@@ -303,6 +303,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
                 className="absolute bottom-full left-0 w-full mb-1 bg-dark-secondary border 
                   border-dark-border rounded-lg shadow-dark-lg overflow-hidden"
                 role="listbox"
+                aria-label="Select account"
               >
                 {accounts.length === 0 && !isLoading ? (
                   <div className="px-4 py-3 text-sm text-dark-text-secondary">
@@ -314,7 +315,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
                       <button
                         key={account.id}
                         role="option"
-                        aria-selected={selectedAccount?.id === account.id}
+                        aria-selected={selectedAccount?.id === account.id ? true : false}
                         onClick={() => {
                           setSelectedAccount(account);
                           setIsAccountsOpen(false);
@@ -359,7 +360,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
               ${isCollapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'}
             `}>
               <div className="text-sm font-medium text-dark-text-primary">
-                {session?.user?.email?.split('@')[0]}
+                
               </div>
               <div className="text-xs text-dark-text-secondary">View Profile</div>
             </div>

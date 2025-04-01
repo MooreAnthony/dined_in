@@ -44,6 +44,7 @@ export const ContactsSearch: React.FC<ContactsSearchProps> = ({
 
         {/* Status Filter */}
         <select
+          aria-label="Filter by status"
           value={filters.isActive ? 'active' : 'all'}
           onChange={(e) => onFilterChange({ isActive: e.target.value === 'active' })}
           className="px-3 py-2 bg-dark-secondary border border-dark-border rounded-lg
@@ -54,8 +55,8 @@ export const ContactsSearch: React.FC<ContactsSearchProps> = ({
           <option value="inactive">Inactive Only</option>
         </select>
 
-        {/* Source Filter */}
         <select
+          aria-label="Filter by source"
           value={filters.source}
           onChange={(e) => onFilterChange({ source: e.target.value })}
           className="px-3 py-2 bg-dark-secondary border border-dark-border rounded-lg
@@ -67,9 +68,8 @@ export const ContactsSearch: React.FC<ContactsSearchProps> = ({
           <option value="Event">Event</option>
           <option value="Other">Other</option>
         </select>
-
-        {/* Contact Method Filter */}
         <select
+          aria-label="Filter by contact method"
           value={filters.contactMethod}
           onChange={(e) => onFilterChange({ contactMethod: e.target.value })}
           className="px-3 py-2 bg-dark-secondary border border-dark-border rounded-lg
