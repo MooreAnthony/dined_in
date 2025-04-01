@@ -44,7 +44,7 @@ export const SignIn: React.FC = () => {
     try {
       await signIn(data.email, data.password, rememberMe);
       navigate('/dashboard');
-    } catch (error) {
+    } catch {
       setError('root', {
         message: 'Invalid email or password',
       });
@@ -55,7 +55,7 @@ export const SignIn: React.FC = () => {
     try {
       await signIn('anthony.j.moore@hotmail.co.uk', 'iamanth0nY!', true);
       navigate('/dashboard');
-    } catch (error) {
+    } catch {
       setError('root', {
         message: 'Developer login failed',
       });

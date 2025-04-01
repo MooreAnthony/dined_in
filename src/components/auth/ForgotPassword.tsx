@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { FormField } from '../common/FormField';
 import { Button } from '../common/Button';
 import { useAuth } from '../../hooks/useAuth';
+import { useState } from 'react';
 
 const forgotPasswordSchema = z.object({
   email: z.string().email('Invalid email address'),
