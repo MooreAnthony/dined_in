@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+export {Icons};
+
 import {
   Tag,
   Star,
@@ -19,7 +21,7 @@ interface IconPickerProps {
   onChange: (icon: string) => void;
 }
 
-const ICONS = [
+const Icons = [
   { name: 'Tag', component: Tag },
   { name: 'Star', component: Star },
   { name: 'Heart', component: Heart },
@@ -39,7 +41,7 @@ export const IconPicker: React.FC<IconPickerProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredIcons = ICONS.filter(icon =>
+  const filteredIcons = Icons.filter(icon =>
     icon.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -62,6 +64,7 @@ export const IconPicker: React.FC<IconPickerProps> = ({
           <button
             key={name}
             type="button"
+            aria-label={`Select ${name} icon`}
             onClick={() => onChange(name)}
             className={`
               w-10 h-10 rounded-lg flex items-center justify-center

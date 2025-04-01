@@ -8,7 +8,13 @@ import { FormField } from '../common/FormField';
 import { Button } from '../common/Button';
 import { ColorPicker } from './ColorPicker';
 import { IconPicker } from './IconPicker';
-import type { Tag, UpdateTagData } from '../../types/tags';
+import type { Tag } from '../../types/tags';
+
+type UpdateTagData = {
+  name: string;
+  color: string;
+  icon: string;
+};
 
 const updateTagSchema = z.object({
   name: z.string().min(2, 'Tag name must be at least 2 characters'),
@@ -34,7 +40,6 @@ export const EditTagModal: React.FC<EditTagModalProps> = ({
     handleSubmit,
     setValue,
     watch,
-    reset,
     formState: { errors, isSubmitting },
   } = useForm<UpdateTagData>({
     resolver: zodResolver(updateTagSchema),

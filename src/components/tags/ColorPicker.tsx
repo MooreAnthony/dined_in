@@ -62,6 +62,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
             value={value}
             onChange={(e) => onChange(e.target.value)}
             className="h-8 bg-transparent border-0 rounded-lg cursor-pointer"
+            aria-label="Choose custom color"
           />
         )}
       </div>

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Plus, Search, Tag as TagIcon } from 'lucide-react';
-import * as Icons from 'lucide-react';
+import { Plus, Search, Tag as TagIcon, LucideIcon } from 'lucide-react';
 import { Button } from '../common/Button';
 import { CreateTagModal } from './CreateTagModal';
 import type { Tag } from '../../types/tags';
+import { Icons } from '../../components/tags/IconPicker';
 
 interface TagSelectorProps {
   tags: Tag[];
@@ -27,7 +27,7 @@ export const TagSelector: React.FC<TagSelectorProps> = ({
     tag.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleTagClick = (tagId: string) => {
+  const handleTagClick = (tagId: string, event: React.MouseEvent) => {
     // Prevent form submission
     event.preventDefault();
     event.stopPropagation();
@@ -73,9 +73,9 @@ export const TagSelector: React.FC<TagSelectorProps> = ({
 
       <div className="flex flex-wrap gap-2">
         {filteredTags.map(tag => {
-          const IconComponent = Icons[tag.icon as keyof typeof Icons] || TagIcon;
+          const IconComponent = (Icons[tag.icon as keyof typeof Icons] || TagIcon) as LucideIcon;
           const isSelected = selectedTags.includes(tag.id);
-          const style = {
+            const style = {
             backgroundColor: isSelected ? tag.color : 'transparent',
             color: isSelected ? '#FFFFFF' : tag.color,
             borderColor: tag.color,
@@ -84,7 +84,7 @@ export const TagSelector: React.FC<TagSelectorProps> = ({
           return (
             <button
               key={tag.id}
-              onClick={() => handleTagClick(tag.id)}
+              onClick={(e) => handleTagClick(tag.id, e)}
               type="button"
               className={`
                 px-3 py-1.5 rounded-full text-sm font-medium border
@@ -104,7 +104,20 @@ export const TagSelector: React.FC<TagSelectorProps> = ({
         <CreateTagModal
           isOpen={isCreateModalOpen}
           onClose={() => setIsCreateModalOpen(false)}
-          onSubmit={handleCreateTag}
+          onSubmit={async (data) => {
+            const tag: Tag = {
+              ...data,
+              id: '',
+              company_id: '',
+              created_by: '',
+              created_at: new Date().toISOString(),
+              modified_at: new Date().toISOString(),
+              modified_by: '',
+              contact_count: 0,
+              sort_order: 0,
+            };
+            await handleCreateTag(tag);
+          }}
           category={category}
         />
       )}

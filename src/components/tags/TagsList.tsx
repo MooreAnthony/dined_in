@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { Tag as TagIcon, Grip, Edit2, Trash2, Search } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { Button } from '../common/Button';
@@ -22,7 +22,7 @@ export const TagsList: React.FC<TagsListProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [editingTag, setEditingTag] = useState<Tag | null>(null);
 
-  const handleDragEnd = (result: any) => {
+  const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
     const items = Array.from(tags);
@@ -103,8 +103,8 @@ export const TagsList: React.FC<TagsListProps> = ({
                           style={{ backgroundColor: tag.color }}
                         >
                           {React.createElement(
-                            Icons[tag.icon as keyof typeof Icons] || TagIcon,
-                            { className: "w-4 h-4 text-white" }
+                            (Icons[tag.icon as keyof typeof Icons] as React.ComponentType) || TagIcon,
+                            { className: "w-4 h-4 text-white" } as React.SVGProps<SVGSVGElement>
                           )}
                         </div>
                         <div className="flex-1">

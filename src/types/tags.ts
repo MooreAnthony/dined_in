@@ -13,6 +13,12 @@ export interface Tag {
   contact_count: number;
 }
 
+export interface UpdateTagData {
+  name?: string;
+  color?: string;
+  icon?: string;
+}
+
 export interface TagRelationship {
   id: string;
   tag_id: string;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import type { Role } from '../../types/roles';
 
 interface RolesListProps {
