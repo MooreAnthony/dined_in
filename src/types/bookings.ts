@@ -26,6 +26,7 @@ export interface Booking {
     first_name: string;
     last_name: string;
     email: string;
+    mobile: string;
   } | null;
   location: {
     id: string;
@@ -46,7 +47,7 @@ export interface Booking {
   total_gross_payment: number;
   duration: number | null;
   tags: string[] | null;
-  pos_tickets: any | null;
+  pos_tickets: { ticket_id: string; amount: number; timestamp: string }[] | null;
   seated_time: string | null;
   left_time: string | null;
   guests: number;

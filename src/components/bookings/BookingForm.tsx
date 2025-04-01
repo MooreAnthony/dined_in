@@ -37,7 +37,6 @@ export const BookingForm: React.FC<BookingFormProps> = ({
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors, isSubmitting },
   } = useForm<CreateBookingData>({
     resolver: zodResolver(bookingSchema),

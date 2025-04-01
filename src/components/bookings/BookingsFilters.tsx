@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, Users, ChevronDown, MapPin } from 'lucide-react';
+import { Calendar, Users, MapPin } from 'lucide-react';
 import { Button } from '../common/Button';
 import type { BookingStatus, BookingFilters } from '../../types/bookings';
 import type { Location } from '../../types/locations';
@@ -25,7 +25,6 @@ export const BookingsFilters: React.FC<BookingsFiltersProps> = ({
   onFilterChange,
   locations,
   isExpanded,
-  onToggle,
 }) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -76,17 +75,6 @@ export const BookingsFilters: React.FC<BookingsFiltersProps> = ({
 
   return (
     <div className="space-y-4">
-      {/* Filter Toggle */}
-      <Button
-        variant="outline"
-        onClick={onToggle}
-        className="flex items-center gap-2 w-full justify-between"
-      >
-        <span>Filters</span>
-        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${
-          isExpanded ? 'rotate-180' : ''
-        }`} />
-      </Button>
 
       {/* Filter Panel */}
       <div className={`
@@ -96,11 +84,13 @@ export const BookingsFilters: React.FC<BookingsFiltersProps> = ({
       `}>
         {/* Location Filter */}
         <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-medium text-dark-text-secondary">
+          <label htmlFor="location-select" className="flex items-center gap-2 text-sm font-medium text-dark-text-secondary">
             <MapPin className="w-4 h-4" />
             Location
           </label>
           <select
+            id="location-select"
+            aria-label="Select location"
             value={selectedLocation}
             onChange={(e) => handleLocationChange(e.target.value)}
             className="w-full px-4 py-2 bg-dark-secondary border border-dark-border rounded-lg
@@ -128,6 +118,9 @@ export const BookingsFilters: React.FC<BookingsFiltersProps> = ({
               onChange={(e) => setStartDate(e.target.value)}
               className="flex-1 px-4 py-2 bg-dark-secondary border border-dark-border rounded-lg
                 text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-dark-accent/50"
+              title="Start date"
+              aria-label="Start date"
+              placeholder="Start date"
             />
             <span className="text-dark-text-muted self-center">to</span>
             <input
@@ -136,6 +129,9 @@ export const BookingsFilters: React.FC<BookingsFiltersProps> = ({
               onChange={(e) => setEndDate(e.target.value)}
               className="flex-1 px-4 py-2 bg-dark-secondary border border-dark-border rounded-lg
                 text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-dark-accent/50"
+              title="End date"
+              aria-label="End date"
+              placeholder="End date"
             />
             <Button
               variant="outline"

@@ -5,12 +5,8 @@ import {
   ChevronRight, 
   ArrowUpDown,
   Loader2,
-  Edit2,
-  Trash2,
-  XCircle,
 } from 'lucide-react';
 import { Button } from '../common/Button';
-import { formatDate } from '../../utils/date';
 import type { Booking, BookingStatus, UpdateBookingData } from '../../types/bookings';
 
 interface BookingsTableProps {
@@ -24,7 +20,6 @@ interface BookingsTableProps {
   onSort: (field: keyof Booking) => void;
   onUpdate: (id: string, data: UpdateBookingData) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
-  onSelect?: (booking: Booking) => void;
   onSelect?: (booking: Booking) => void;
 }
 
@@ -85,19 +80,10 @@ export const BookingsTable: React.FC<BookingsTableProps> = ({
   sortDirection,
   onPageChange,
   onSort,
-  onSelect,
-  onUpdate,
-  onDelete,
 }) => {
   const totalPages = Math.ceil(totalCount / 10);
   const navigate = useNavigate();
 
-  const formatDateTime = (date: string, time: string) => {
-    return new Date(`${date}T${time}`).toLocaleString('en-US', {
-      dateStyle: 'medium',
-      timeStyle: 'short',
-    });
-  };
 
   return (
     <div className="bg-dark-secondary rounded-lg border border-dark-border">
@@ -106,7 +92,14 @@ export const BookingsTable: React.FC<BookingsTableProps> = ({
           <thead>
             <tr className="border-b border-dark-border">
               <th className="px-6 py-4 text-left text-sm font-medium text-dark-text-secondary">
-                Location
+                <SortableColumn
+                  field="location_id"
+                  currentSort={sortBy}
+                  direction={sortDirection}
+                  onSort={onSort}
+                >
+                  Location
+                </SortableColumn>
               </th>
               <th className="px-6 py-4 text-left text-sm font-medium text-dark-text-secondary">
                 <SortableColumn
@@ -115,11 +108,18 @@ export const BookingsTable: React.FC<BookingsTableProps> = ({
                   direction={sortDirection}
                   onSort={onSort}
                 >
-                  Date & Time
+                  Seated Date / Time
                 </SortableColumn>
               </th>
               <th className="px-6 py-4 text-left text-sm font-medium text-dark-text-secondary">
-                Customer Details
+              <SortableColumn
+                  field="contact_id" //needs fixing, this sorts by ID not email address
+                  currentSort={sortBy}
+                  direction={sortDirection}
+                  onSort={onSort}
+                >
+                  Customer Details
+                </SortableColumn>
               </th>
               <th className="px-6 py-4 text-left text-sm font-medium text-dark-text-secondary">
                 Booking Reference
