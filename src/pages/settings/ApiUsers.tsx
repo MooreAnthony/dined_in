@@ -261,6 +261,7 @@ export const ApiUsers: React.FC = () => {
               Provider
             </label>
             <select
+              aria-label="Provider"
               value={formData.provider_id}
               onChange={(e) => setFormData(prev => ({ ...prev, provider_id: e.target.value }))}
               className="w-full px-4 py-2 bg-dark-secondary border-2 border-dark-border rounded-lg

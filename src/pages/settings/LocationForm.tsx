@@ -37,16 +37,6 @@ const locationSchema = z.object({
 
 type LocationFormData = z.infer<typeof locationSchema>;
 
-const VENUE_GROUPS = [
-  'City Center',
-  'Waterfront',
-  'Shopping District',
-  'Business District',
-  'Tourist Area',
-  'Residential',
-  'Other',
-];
-
 const CURRENCIES = [
   { code: 'USD', name: 'US Dollar' },
   { code: 'EUR', name: 'Euro' },
@@ -78,8 +68,23 @@ export const LocationForm: React.FC = () => {
   useEffect(() => {
     if (location) {
       reset({
-        ...location,
-        venue_group_id: location.venue_group?.id || null
+        client_reference: location.client_reference,
+        public_name: location.public_name,
+        internal_name: location.internal_name,
+        venue_type: location.venue_type,
+        website_url: location.website_url || undefined,
+        phone: location.phone,
+        address_line1: location.address_line1,
+        address_line2: location.address_line2 || undefined,
+        city: location.city,
+        state: location.state,
+        postal_code: location.postal_code,
+        country: location.country,
+        latitude: location.latitude || undefined,
+        longitude: location.longitude || undefined,
+        currency_code: location.currency_code,
+        reservation_url: location.reservation_url || undefined,
+        venue_group_id: location.venue_group_id === null ? undefined : location.venue_group_id,
       });
     }
   }, [location, reset]);
@@ -87,21 +92,27 @@ export const LocationForm: React.FC = () => {
   const onSubmit = async (data: LocationFormData) => {
     if (!currentCompany?.id) return;
 
-    let error = null;
     try {
       // Ensure venue_group_id is null if empty string
       const locationData = {
         ...data,
-        venue_group_id: data.venue_group_id || null
+        venue_group_id: data.venue_group_id || null,
+        website_url: data.website_url || null,
+        reservation_url: data.reservation_url || null,
+        address_line2: data.address_line2 || null,
+        latitude: data.latitude === undefined ? null : data.latitude,
+        longitude: data.longitude === undefined ? null : data.longitude,
+        is_active: true, // Or false, depending on the desired default value
       };
-      
+
       if (id) {
         await updateLocation(id, locationData);
       } else {
         await createLocation(locationData);
       }
     } catch (error) {
-      error = error instanceof Error ? error.message : 'Failed to save location';
+      const errorMessage = error instanceof Error ? error.message : 'Failed to save location';
+      console.error(errorMessage);
       return;
     }
 
@@ -113,9 +124,7 @@ export const LocationForm: React.FC = () => {
 
     try {
       const group = await createVenueGroup(
-        newVenueGroup.name,
-        currentCompany.id,
-        newVenueGroup.description
+        newVenueGroup.name
       );
       // Clear the form
       setNewVenueGroup({ name: '' });
@@ -396,6 +405,7 @@ export const LocationForm: React.FC = () => {
                   multiple
                   accept="image/*"
                   className="hidden"
+                  title="Upload location photos"
                   onChange={(e) => {
                     // Handle file upload
                     console.log('Files:', e.target.files);

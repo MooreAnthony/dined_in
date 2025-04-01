@@ -54,30 +54,18 @@ export function useLocations() {
   const handleCreate = async (data: CreateLocationData) => {
     if (!currentCompany?.id) throw new Error('No company selected');
 
-    try {
-      await createLocation(currentCompany.id, data);
-      await loadLocations();
-    } catch (err) {
-      throw err;
-    }
+    await createLocation(currentCompany.id, data);
+    await loadLocations();
   };
 
   const handleUpdate = async (id: string, data: UpdateLocationData) => {
-    try {
       await updateLocation(id, data);
       await loadLocations();
-    } catch (err) {
-      throw err;
-    }
   };
 
   const handleDelete = async (id: string) => {
-    try {
       await deleteLocation(id);
       await loadLocations();
-    } catch (err) {
-      throw err;
-    }
   };
 
   return {
@@ -117,16 +105,12 @@ export function useVenueGroups(companyId: string | undefined) {
     loadVenueGroups();
   }, [loadVenueGroups]);
 
-  const createVenueGroup = async (name: string, description?: string) => {
+  const createVenueGroup = async (name: string) => {
     if (!companyId) throw new Error('No company selected');
 
-    try {
-      const newGroup = await createVenueGroupService(name, companyId, description);
-      setVenueGroups(prev => [...prev, newGroup]);
-      return newGroup;
-    } catch (err) {
-      throw err;
-    }
+    const newGroup = await createVenueGroupService(name, companyId);
+    setVenueGroups(prev => [...prev, newGroup]);
+    return newGroup;
   };
 
   return {

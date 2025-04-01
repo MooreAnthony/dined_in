@@ -73,8 +73,7 @@ export const useCompanyDashboard = (selectedCompany: Account | null) => {
         const { data: sourceData, error: sourceError } = await supabase
           .from('contacts')
           .select('contact_source, count')
-          .eq('company_id', selectedCompany.id)
-          .group('contact_source');
+          .eq('company_id', selectedCompany.id);
 
         if (sourceError) throw sourceError;
 
@@ -82,8 +81,7 @@ export const useCompanyDashboard = (selectedCompany: Account | null) => {
         const { data: methodData, error: methodError } = await supabase
           .from('contacts')
           .select('preferred_contact_method, count')
-          .eq('company_id', selectedCompany.id)
-          .group('preferred_contact_method');
+          .eq('company_id', selectedCompany.id);
 
         if (methodError) throw methodError;
 

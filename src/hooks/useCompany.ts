@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { createCompany } from '../services/supabase/company';
-import type { CompanyFormData, Company } from '../types';
+import type { CompanyFormData } from '../types';
 
 export const useCompany = () => {
   const [isLoading, setIsLoading] = useState(false);

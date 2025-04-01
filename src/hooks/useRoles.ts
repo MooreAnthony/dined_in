@@ -39,32 +39,20 @@ export function useRoles(companyId: string | undefined) {
   const handleCreateRole = async (data: CreateRoleData) => {
     if (!companyId) throw new Error('No company selected');
 
-    try {
-      const newRole = await createRole(companyId, data);
-      setRoles(prev => [...prev, newRole]);
-    } catch (err) {
-      throw err;
-    }
+    const newRole = await createRole(companyId, data);
+    setRoles(prev => [...prev, newRole]);
   };
 
   const handleUpdateRole = async (id: string, data: UpdateRoleData) => {
-    try {
-      const updatedRole = await updateRole(id, data);
-      setRoles(prev => prev.map(role => 
-        role.id === id ? updatedRole : role
-      ));
-    } catch (err) {
-      throw err;
-    }
-  };
+    const updatedRole = await updateRole(id, data);
+    setRoles(prev => prev.map(role => 
+      role.id === id ? updatedRole : role
+    ));
+  }
 
   const handleDeleteRole = async (id: string) => {
-    try {
-      await deleteRole(id);
-      setRoles(prev => prev.filter(role => role.id !== id));
-    } catch (err) {
-      throw err;
-    }
+    await deleteRole(id);
+    setRoles(prev => prev.filter(role => role.id !== id));
   };
 
   return {

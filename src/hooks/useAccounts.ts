@@ -25,7 +25,7 @@ export const useAccounts = () => {
 
         if (error) throw error;
 
-        const formattedAccounts = data
+        const formattedAccounts = data //removing this causes the account selector to stop working
           .map(item => ({
             id: item.company.id,
             name: item.company.name,

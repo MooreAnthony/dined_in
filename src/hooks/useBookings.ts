@@ -86,30 +86,19 @@ export function useBookings({ companyId, initialFilters = {} }: UseBookingsOptio
   }, [companyId, loadBookings]);
 
   const handleCreateBooking = async (data: CreateBookingData) => {
-    try {
       await createBooking(companyId, data);
       loadBookings();
-    } catch (err) {
-      throw err;
-    }
   };
 
   const handleUpdateBooking = async (bookingId: string, updates: UpdateBookingData) => {
-    try {
+
       await updateBooking(bookingId, updates);
       loadBookings();
-    } catch (err) {
-      throw err;
-    }
   };
 
   const handleDeleteBooking = async (bookingId: string) => {
-    try {
       await deleteBooking(bookingId);
       loadBookings();
-    } catch (err) {
-      throw err;
-    }
   };
 
   const handlePageChange = (page: number) => {

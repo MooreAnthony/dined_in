@@ -43,12 +43,8 @@ export function useCompanyUsers(companyId: string | undefined) {
   const inviteUser = async (data: InviteUserData) => {
     if (!companyId) throw new Error('No company selected');
 
-    try {
-      const invitation = await inviteUserService(companyId, data);
+      await inviteUserService(companyId, data);
       // Optionally update the users list or show a success message
-    } catch (err) {
-      throw err;
-    }
   };
 
   return {
