@@ -100,6 +100,11 @@ export const System: React.FC = () => {
         .eq('company_id', currentCompany.id)
         .single();
 
+      if (!settings) {
+        console.error('No settings found for company:', currentCompany.id);
+        return;
+      }
+
       // Update company details
       const { error: companyError } = await supabase
         .from('companies')
@@ -125,7 +130,10 @@ export const System: React.FC = () => {
         })
         .eq('id', settings.id);
 
-      if (settingsError) throw settingsError;
+      if (settingsError) {
+        console.error('Settings update error:', settingsError);
+        throw settingsError;
+      }
 
       // Reset form state
       reset(data);

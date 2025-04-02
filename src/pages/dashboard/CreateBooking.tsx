@@ -14,6 +14,7 @@ import { createTag } from '../../services/supabase/tags';
 import { createBookingWithContact, updateBooking } from '../../services/supabase/bookings';
 import { useLocations } from '../../hooks/useLocations';
 import { COUNTRIES } from '../../utils/constants';
+import { Tag } from '../../types/tags';
 
 interface ContactFields {
   first_name: boolean;
@@ -68,8 +69,9 @@ export const CreateBooking: React.FC = () => {
   const { currentCompany } = useCompany();
   const bookingData = location.state || {};
   const [selectedContactTags, setSelectedContactTags] = useState<string[]>([]);
-  const { locations, venueGroups, isLoading } = useLocations(currentCompany?.id);
+  const { locations, isLoading } = useLocations();
   const { tags: contactTags } = useTags(currentCompany?.id, 'contact');
+  const [venueGroups] = useState<{ id: string; name: string }[]>([]);// Add this line to define venueGroups
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [showFields, setShowFields] = useState<ContactFields>({
@@ -143,7 +145,7 @@ export const CreateBooking: React.FC = () => {
         
         // Set selected tags
         if (contact.tags) {
-          setSelectedContactTags(contact.tags.map(t => t.tag.id));
+          setSelectedContactTags(contact.tags.map(t => t.id));
         }
       } else {
         // Clear form if no contact found
@@ -208,6 +210,12 @@ export const CreateBooking: React.FC = () => {
 
     setIsSubmitting(true);
     try {
+      const bookingData = {
+        ...data,
+        birthday_month: data.birthday_month === null ? undefined : data.birthday_month,
+        birthday_day: data.birthday_day === null ? undefined : data.birthday_day,
+      };
+
       if (location.state?.id) {
         // Update existing booking
         await updateBooking(location.state.id, {
@@ -221,11 +229,25 @@ export const CreateBooking: React.FC = () => {
           covers_child: data.covers_child,
           duration: data.duration,
           special_requests: data.special_requests,
-          notes: data.notes
+          notes: data.notes,
+          arrived_guests: 0, // Default value
+          deposit_required: false, // Default value
+          deposit_amount_required: 0, // Default value
+          deposit_paid: false, // Default value
+          outstanding_balance: 0, // Default value
+          table_ids: [], // Default value
+          booking_status: 'Confirmed', // Default value
+          total_payment: 0,
+          total_net_payment: 0,
+          total_gross_payment: 0,
+          pos_tickets: [],
+          seated_time: data.booking_seated_time,
+          left_time: data.booking_seated_time,
+          tags: selectedContactTags,
         });
       } else {
         // Create new booking
-        await createBookingWithContact(currentCompany.id, data);
+        await createBookingWithContact(currentCompany.id, bookingData);
       }
       navigate('/dashboard/bookings');
     } catch (error) {

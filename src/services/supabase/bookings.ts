@@ -1,17 +1,45 @@
 import { supabase } from './config';
 import type { 
   Booking, 
-  BookingStatus, 
   CreateBookingData, 
   UpdateBookingData,
   BookingFilters,
   Table 
 } from '../../types/bookings';
 
+
+
+interface CreateBookingContactData {
+  first_name: string;
+  last_name: string;
+  email: string;
+  mobile: string;
+  birthday_month?: number;
+  birthday_day?: number;
+  street_address?: string;
+  city?: string;
+  state?: string;
+  postal_code?: string;
+  country?: string;
+  email_consent: boolean;
+  sms_consent: boolean;
+  location_id: string;
+  booking_source: string;
+  booking_type: string;
+  booking_occasion?: string;
+  booking_seated_date: string;
+  booking_seated_time: string;
+  covers_adult: number;
+  covers_child?: number;
+  duration: number;
+  special_requests?: string;
+  notes?: string;
+}
+
 async function createBookingWithContact(
   companyId: string,
-  data: any
-): Promise<{ contact: any; booking: any }> {
+  data: CreateBookingContactData
+): Promise<{ contact: CreateBookingContactData; booking: Booking }> {
   const { data: result, error } = await supabase.rpc('create_booking_with_contact', {
     p_company_id: companyId,
     p_first_name: data.first_name,
@@ -60,7 +88,7 @@ async function fetchBookings(
   companyId: string,
   page: number = 1,
   filters: BookingFilters = {},
-  sortBy: keyof Booking = 'booking_date',
+  sortBy: keyof Booking = 'booking_seated_date',
   sortDirection: 'asc' | 'desc' = 'asc'
 ): Promise<{ data: Booking[]; count: number }> {
   try {

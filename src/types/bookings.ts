@@ -87,4 +87,32 @@ export interface CreateBookingData {
 
 export interface UpdateBookingData extends Partial<CreateBookingData> {
   status?: BookingStatus;
+    booking_status?: string;
+    guests?: number;
+    table_id?: string;
+    notes?: string;
+    booking_seated_date?: string;
+    booking_seated_time?: string;
+    location_id: string;
+    booking_source: string; 
+    booking_type: string;
+    booking_occasion?: string;
+    covers_adult: number;
+    covers_child?: number;
+    duration: number;
+    special_requests?: string;
+    arrived_guests: number | null;
+    deposit_required: boolean;
+    outstanding_balance: number;
+    deposit_amount_required: number | null;
+    deposit_paid: boolean;
+    total_payment: number;
+    total_net_payment: number;
+    total_gross_payment: number;
+    pos_tickets: { ticket_id: string; amount: number; timestamp: string }[] | null;
+    seated_time: string | null;
+    left_time: string | null;
+    tags: string[] | null;
+    table_ids: string[] | null;
+    
 }

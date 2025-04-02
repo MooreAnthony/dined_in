@@ -9,7 +9,6 @@ import { FormField } from '../../components/common/FormField';
 import { useCompany } from '../../contexts/CompanyContext';
 import { COUNTRIES } from '../../utils/constants';
 import { createContact } from '../../services/supabase/contacts';
-import type { ContactSource, ContactMethod } from '../../types/contacts';
 
 const contactSchema = z.object({
   first_name: z.string().min(2, 'First name must be at least 2 characters'),

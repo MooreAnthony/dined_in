@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, Users, MapPin } from 'lucide-react';
+import { Calendar, MapPin } from 'lucide-react';
 import { Button } from '../common/Button';
 import type { BookingStatus, BookingFilters } from '../../types/bookings';
 import type { Location } from '../../types/locations';
@@ -30,8 +30,6 @@ export const BookingsFilters: React.FC<BookingsFiltersProps> = ({
   const [endDate, setEndDate] = useState('');
   const [status, setStatus] = useState<BookingStatus | ''>('');
   const [selectedLocation, setSelectedLocation] = useState('');
-  const [minGuests, setMinGuests] = useState('');
-  const [maxGuests, setMaxGuests] = useState('');
 
   const handleDateChange = () => {
     if (startDate && endDate) {
@@ -56,20 +54,11 @@ export const BookingsFilters: React.FC<BookingsFiltersProps> = ({
     onFilterChange({ locationId });
   };
 
-  const handleGuestsChange = () => {
-    const filters: Partial<BookingFilters> = {};
-    if (minGuests) filters.minGuests = parseInt(minGuests);
-    if (maxGuests) filters.maxGuests = parseInt(maxGuests);
-    onFilterChange(filters);
-  };
-
   const clearFilters = () => {
     setStartDate('');
     setEndDate('');
     setStatus('');
     setSelectedLocation('');
-    setMinGuests('');
-    setMaxGuests('');
     onFilterChange({});
   };
 
@@ -164,42 +153,6 @@ export const BookingsFilters: React.FC<BookingsFiltersProps> = ({
                 {s}
               </button>
             ))}
-          </div>
-        </div>
-
-        {/* Guest Count Filter */}
-        <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm font-medium text-dark-text-secondary">
-            <Users className="w-4 h-4" />
-            Guest Count
-          </label>
-          <div className="flex gap-4">
-            <input
-              type="number"
-              min="1"
-              placeholder="Min guests"
-              value={minGuests}
-              onChange={(e) => setMinGuests(e.target.value)}
-              className="flex-1 px-4 py-2 bg-dark-secondary border border-dark-border rounded-lg
-                text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-dark-accent/50"
-            />
-            <span className="text-dark-text-muted self-center">to</span>
-            <input
-              type="number"
-              min="1"
-              placeholder="Max guests"
-              value={maxGuests}
-              onChange={(e) => setMaxGuests(e.target.value)}
-              className="flex-1 px-4 py-2 bg-dark-secondary border border-dark-border rounded-lg
-                text-dark-text-primary focus:outline-none focus:ring-2 focus:ring-dark-accent/50"
-            />
-            <Button
-              variant="outline"
-              onClick={handleGuestsChange}
-              disabled={!minGuests && !maxGuests}
-            >
-              Apply
-            </Button>
           </div>
         </div>
 

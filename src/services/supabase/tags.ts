@@ -3,8 +3,6 @@ import type {
   Tag, 
   CreateTagData, 
   UpdateTagData,
-  ContactTag,
-  BookingTag 
 } from '../../types/tags';
 
 export async function fetchTags(companyId: string, category?: 'contact' | 'booking'): Promise<Tag[]> {
@@ -37,10 +35,10 @@ export async function fetchContactTags(contactId: string): Promise<Tag[]> {
       tag_id,
       tag:tags (*)
     `)
-    .eq('contact_id', contactId);
+  .eq('contact_id', contactId);
 
   if (error) throw error;
-  return data.map(item => item.tag);
+  return data.flatMap(item => item.tag as Tag[]);
 }
 
 export async function fetchBookingTags(bookingId: string): Promise<Tag[]> {
@@ -53,7 +51,7 @@ export async function fetchBookingTags(bookingId: string): Promise<Tag[]> {
     .eq('booking_id', bookingId);
 
   if (error) throw error;
-  return data.map(item => item.tag);
+  return data.map(item => item.tag as unknown as Tag);
 }
 
 export async function addContactTags(contactId: string, tagIds: string[]): Promise<void> {

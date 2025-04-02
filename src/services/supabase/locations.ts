@@ -1,5 +1,5 @@
 import { supabase } from './config';
-import type { Location, VenueGroup, CreateLocationData, UpdateLocationData } from '../../types/locations';
+import type { VenueGroup, CreateLocationData, UpdateLocationData } from '../../types/locations';
 
 export async function fetchLocations(companyId: string) {
   const { data, error } = await supabase

@@ -115,15 +115,34 @@ export async function fetchContacts({
       throw error;
     }
 
+    interface ContactWithTags {
+      [key: string]: unknown;
+      tags?: { tag: {
+        id: string;
+        name: string;
+        color: string;
+        icon: string;
+      } }[];
+    }
+
+    interface TransformedContact extends Omit<Contact, 'tags'> {
+      tags: {
+        id: string;
+        name: string;
+        color: string;
+        icon: string;
+      }[];
+    }
+
     return {
-      data: data.map(contact => ({
-        ...contact,
-        tags: contact.tags?.map(t => t.tag) || []
-      })) as Contact[],
+      data: (data as ContactWithTags[]).map(contact => ({
+      ...contact,
+      tags: contact.tags?.map(t => t.tag) || []
+      })) as TransformedContact[],
       metadata: {
-        total: count || 0,
-        page,
-        pageSize,
+      total: count || 0,
+      page,
+      pageSize,
       },
     };
   } catch (error) {
