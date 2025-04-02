@@ -21,7 +21,7 @@ export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
 // Verify connection
 export const verifyConnection = async () => {
   try {
-    const { data, error } = await supabase.from('contacts').select('count');
+    const { error } = await supabase.from('contacts').select('count');
     if (error) throw error;
     console.log('Supabase connection verified');
     return true;

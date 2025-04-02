@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import type { Account } from '../types/accounts';
 import { supabase } from '../services/supabase/config';
 
@@ -16,7 +15,7 @@ export const CompanyProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [currentCompany, setCurrentCompany] = useState<Account | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+  
 
   // Load initial company data
   useEffect(() => {
@@ -26,7 +25,7 @@ export const CompanyProvider: React.FC<{ children: React.ReactNode }> = ({ child
           .from('company_users')
           .select(`
             role,
-            company:companies (
+            companies!inner (
               id,
               name
             )
@@ -35,14 +34,19 @@ export const CompanyProvider: React.FC<{ children: React.ReactNode }> = ({ child
           .limit(1)
           .single();
 
+          console.log('Current company loaded:', companies);
+
+
         if (companiesError) throw companiesError;
 
         if (companies) {
           setCurrentCompany({
-            id: companies.company.id,
-            name: companies.company.name,
-            role: companies.role,
+            id: companies.companies[0].id,
+            name: companies.companies[0].name,
+            role: companies.role[0],
           });
+          console.log('Current company loaded:', companies);
+          console.log('Current company:', companies.companies[0]);
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load company data');
@@ -54,7 +58,7 @@ export const CompanyProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
     loadInitialCompany();
   }, []);
-
+/*
   // Subscribe to company changes
   useEffect(() => {
     if (!currentCompany) return;
@@ -103,7 +107,7 @@ export const CompanyProvider: React.FC<{ children: React.ReactNode }> = ({ child
       subscription.unsubscribe();
     };
   }, [currentCompany, navigate]);
-
+*/
   return (
     <CompanyContext.Provider 
       value={{ 
