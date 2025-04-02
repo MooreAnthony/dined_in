@@ -37,40 +37,28 @@ export function useTags(companyId: string | undefined, category?: 'contact' | 'b
   const handleCreateTag = async (data: CreateTagData) => {
     if (!companyId) throw new Error('No company selected');
 
-    try {
-      const newTag = await createTag(companyId, data);
-      setTags(prev => [...prev, newTag]);
-      return newTag;
-    } catch (err) {
-      throw err;
-    }
+    const newTag = await createTag(companyId, data);
+    setTags(prev => [...prev, newTag]);
+    return newTag;
   };
 
   const handleUpdateTag = async (id: string, data: UpdateTagData) => {
-    try {
       const updatedTag = await updateTag(id, data);
       setTags(prev => prev.map(tag => 
         tag.id === id ? updatedTag : tag
       ));
       return updatedTag;
-    } catch (err) {
-      throw err;
-    }
-  };
+    };
 
   const handleDeleteTag = async (id: string) => {
-    try {
       await deleteTag(id);
       setTags(prev => prev.filter(tag => tag.id !== id));
-    } catch (err) {
-      throw err;
-    }
   };
 
   const handleReorderTags = async (orderedIds: string[]) => {
     if (!companyId || !category) return;
 
-    try {
+
       await updateTagOrder(companyId, category, orderedIds);
       const reorderedTags = orderedIds.map((id, index) => {
         const tag = tags.find(t => t.id === id);
@@ -78,9 +66,7 @@ export function useTags(companyId: string | undefined, category?: 'contact' | 'b
       }).filter((tag): tag is Tag => tag !== null);
       
       setTags(reorderedTags);
-    } catch (err) {
-      throw err;
-    }
+
   };
 
   return {

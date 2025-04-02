@@ -6,7 +6,7 @@ import { ContactsSearch } from '../../components/contacts/ContactsSearch';
 import { AddContactModal } from '../../components/contacts/AddContactModal';
 import { useCompany } from '../../contexts/CompanyContext';
 import { useCompanyContacts } from '../../hooks/useCompanyContacts';
-import type { ContactFilters } from '../../types/contacts';
+import type { ContactSource, ContactMethod } from '../../types/contacts';
 
 export const Contacts: React.FC = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -35,8 +35,12 @@ export const Contacts: React.FC = () => {
     updateFilters({ search: query });
   };
 
-  const handleFilter = (filterUpdates: Partial<ContactFilters>) => {
-    updateFilters(filterUpdates);
+  const handleFilter = (filters: Partial<{ isActive: boolean; source: string; contactMethod: string; }>) => {
+    updateFilters({
+      ...filters,
+      source: filters.source as ContactSource,
+      contactMethod: filters.contactMethod as ContactMethod,
+    });
     setCurrentPage(1);
   };
 
@@ -64,7 +68,11 @@ export const Contacts: React.FC = () => {
         <ContactsSearch
           value={searchQuery}
           onChange={handleSearch}
-          filters={filters}
+          filters={{
+            isActive: filters.isActive ?? true,
+            source: filters.source || '',
+            contactMethod: filters.contactMethod || '',
+          }}
           onFilterChange={handleFilter}
         />
       </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Search, Filter, Loader2, AlertCircle } from 'lucide-react';
+import { Plus, Search, Filter, AlertCircle } from 'lucide-react';
 import { useCompany } from '../../contexts/CompanyContext';
 import { useLocations } from '../../hooks/useLocations';
 import { useBookings } from '../../hooks/useBookings';
@@ -8,7 +8,7 @@ import { Button } from '../../components/common/Button';
 import { BookingForm } from '../../components/bookings/BookingForm';
 import { BookingsTable } from '../../components/bookings/BookingsTable';
 import { BookingsFilters } from '../../components/bookings/BookingsFilters';
-import type { BookingFilters } from '../../types/bookings';
+import type { BookingFilters, Booking } from '../../types/bookings';
 
 export const Bookings: React.FC = () => {
   const { currentCompany } = useCompany();
@@ -16,7 +16,7 @@ export const Bookings: React.FC = () => {
   const [isFiltersExpanded, setIsFiltersExpanded] = useState(false);
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-  const { locations } = useLocations(currentCompany?.id);
+  const { locations } = useLocations();
 
   const {
     bookings,
